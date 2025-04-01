@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "A784F223-346B-4858-A280-DFF5D5D995CA"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.SymbolicBreakpoint">
+         <BreakpointContent
+            uuid = "A8C3CE31-E3B1-4276-8C05-5354F57328D8"
+            shouldBeEnabled = "No"
+            nameForDebugger = "colorBreak"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            symbolName = "UIColorBreakForOutOfRangeColorComponents"
+            moduleName = "">
+            <Locations>
+               <Location
+                  uuid = "A8C3CE31-E3B1-4276-8C05-5354F57328D8 - f26c3364c30b7088"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "UIColorBreakForOutOfRangeColorComponents"
+                  moduleName = "UIKitCore"
+                  usesParentBreakpointCondition = "Yes">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
