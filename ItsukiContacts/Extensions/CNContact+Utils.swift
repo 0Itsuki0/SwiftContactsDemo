@@ -15,6 +15,6 @@ extension CNContact {
     
     var initials: String {
         CNContactFormatter.nameOrder(for: self) == .familyNameFirst ?
-        "\(self.familyName.prefix(1))\(self.givenName.prefix(1))" :"\(self.givenName.prefix(1))\(self.familyName.prefix(1))"
+        "\(self.familyName.prefix(1))\(self.givenName.prefix(1))".uppercased() :"\(self.givenName.prefix(1))\(self.familyName.prefix(1))".uppercased()
     }
 }

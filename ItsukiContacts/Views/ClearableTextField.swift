@@ -12,18 +12,14 @@ struct ClearableTextField: View {
     var title: String
     @Binding var text: String
     
-//    var keyboardType: UIKeyboardType
-
-    init(_ title: String, text: Binding<String> /*keyboardType: UIKeyboardType = .default*/) {
+    init(_ title: String, text: Binding<String>) {
         self.title = title
         self._text = text
-//        self.keyboardType = keyboardType
     }
 
     var body: some View {
         ZStack(alignment: .trailing) {
             TextField(title, text: $text)
-//                .keyboardType(keyboardType)
                 .padding(.trailing, 32)
             
             if !text.isEmpty {

@@ -20,30 +20,6 @@ struct ContactCellView: View {
 }
 
 
-private struct IconView: View {
-    var contact: CNContact
-    
-    var body: some View {
-        Group {
-            if let imageData = contact.thumbnailImageData, let uiImage = UIImage(data: imageData) {
-                Image(uiImage: uiImage)
-                    .resizable()
-                
-            } else {
-                
-                Text(contact.initials)
-                    .fontWeight(.bold)
-            }
-
-        }
-        .frame(width: 44, height: 44)
-        .background(.pink.opacity(0.3))
-        .clipShape(Circle())
-
-    }
-}
-
-
 
 #Preview {
     var contact: CNMutableContact {

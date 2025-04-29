@@ -11,35 +11,51 @@ struct ContentView: View {
     @State private var manager = ContactManager()
 
     var body: some View {
-        VStack {
+        Group {
 
             switch manager.authorizationStatus {
             case .notDetermined:
-                Button(action: {
-                    Task {
-                        await manager.requestAccess()
-                    }
-                }, label: {
-                    Text("request access")
+                ContentUnavailableView(label: {
+                    Label("Unknown Access", systemImage: "questionmark.app")
+                }, description: {
+                    Text("The app requires access to the contacts.")
+                        .multilineTextAlignment(.center)
+                }, actions: {
+                    Button(action: {
+                        Task {
+                            await manager.requestAccess()
+                        }
+                    }, label: {
+                        Text("request access")
+                    })
                 })
-                Text("Not Determined")
-                
+
             case .restricted:
-                
-                Text("restricted")
+                ContentUnavailableView(label: {
+                    Label("Restricted Access", systemImage: "lock.square")
+                }, description: {
+                    Text("This device doesn't allow access to Contacts. Please update the permission in Settings.")
+                        .multilineTextAlignment(.center)
+                })
             case .denied:
-                Text("denied")
+                ContentUnavailableView(label: {
+                    Label("Access Denied", systemImage: "xmark.square")
+                }, description: {
+                    Text("The app doesn't have permission to access contacts. Please grant the app access in Settings.")
+                        .multilineTextAlignment(.center)
+                })
 
-            case .authorized:
-                ContactView()
-
-            case .limited:
+            case .authorized, .limited:
                 ContactView()
            
             @unknown default:
-                Text("@unknown")
+                ContentUnavailableView(label: {
+                    Label("Unknown", systemImage: "ellipsis.rectangle")
+                }, description: {
+                    Text("Unknown authorization status.")
+                        .multilineTextAlignment(.center)
+                })
             }
-
         }
         .environment(manager)
 

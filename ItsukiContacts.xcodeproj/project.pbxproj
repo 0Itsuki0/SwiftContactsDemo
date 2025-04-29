@@ -6,7 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		988784292DA0D4E6009E1976 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 988784282DA0D4E6009E1976 /* README.md */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		988784282DA0D4E6009E1976 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9887842A2DA0D59F009E1976 /* demo.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = demo.gif; sourceTree = "<group>"; };
 		9898902B2D97C2AD00393A81 /* ItsukiContacts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ItsukiContacts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -45,6 +51,8 @@
 		989890222D97C2AD00393A81 = {
 			isa = PBXGroup;
 			children = (
+				9887842A2DA0D59F009E1976 /* demo.gif */,
+				988784282DA0D4E6009E1976 /* README.md */,
 				9898902D2D97C2AD00393A81 /* ItsukiContacts */,
 				9898902C2D97C2AD00393A81 /* Products */,
 			);
@@ -122,6 +130,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				988784292DA0D4E6009E1976 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@ import Contacts
 import ContactsUI
 
 struct ContactView: View {
-    @Environment(ContactManager.self) var manager
+    @Environment(ContactManager.self) private var manager
     
     @State private var searchText: String = ""
     @State private var lastFetchedIdentifiers: [String] = []
@@ -20,7 +20,8 @@ struct ContactView: View {
     @State private var showIgnoreListSheet: Bool = false
     
     @AppStorage("accessButtonCaption") var accessButtonCaption: ContactAccessButton.Caption = .defaultText
-    
+    @AppStorage("interface") var interface: Int = 0
+
     @State private var ignoredEmails: Set<String> = []
     @State private var ignoredPhoneNumbers: Set<String> = []
 
@@ -41,7 +42,6 @@ struct ContactView: View {
             Section {
                 ClearableTextField("Search", text: $searchText)
                     .autocorrectionDisabled(true)
-
             }
             
             if !searchText.isEmpty {
@@ -64,6 +64,8 @@ struct ContactView: View {
                     ForEach(newContacts) { contact in
                         NavigationLink(destination: {
                             ContactDetailView(contact: contact)
+                                .environment(self.manager)
+                            
                         }, label: {
                             ContactCellView(contact: contact)
                         })
@@ -76,8 +78,11 @@ struct ContactView: View {
                 ForEach(otherContacts) { contact in
                     NavigationLink(destination: {
                         ContactDetailView(contact: contact)
+                            .environment(self.manager)
+
                     }, label: {
                         ContactCellView(contact: contact)
+                        
                     })
 
                 }
@@ -98,16 +103,20 @@ struct ContactView: View {
         })
         // for creating new contacts
         .sheet(isPresented: $showNewContactSheet, content: {
-            ContactViewRepresentable(nil, contactStore: self.manager.store, onNewContactSave: { identifier in
-                self.showNewContactSheet = false
-                if let identifier {
-                    self.lastFetchedIdentifiers = [identifier]
-                    Task {
-                        await self.manager.fetchContacts([identifier])
+            if self.interface == 0 {
+                ContactViewRepresentable(nil, contactStore: self.manager.store, onNewContactSave: { identifier in
+                    self.showNewContactSheet = false
+                    if let identifier {
+                        self.lastFetchedIdentifiers = [identifier]
+                        Task {
+                            await self.manager.fetchContacts([identifier])
+                        }
                     }
-                }
-            })
-            .ignoresSafeArea()
+                })
+                .ignoresSafeArea()
+            } else {
+                CustomNewContactView()
+            }
         })
         // for editing ignore list of the access button
         .sheet(isPresented: $showIgnoreListSheet, content: {
@@ -122,36 +131,30 @@ struct ContactView: View {
             })
             
             Menu(content: {
-                Button(action: {
-                    showContactAccessPicker = true
-                }, label: {
-                    Text("Access List")
-                })
-             
-                Button(action: {
-                    showIgnoreListSheet = true
+                if self.manager.authorizationStatus == .limited {
+                    Button(action: {
+                        showContactAccessPicker = true
                     }, label: {
-                        Text("Ignore List")
+                        Text("Access List")
                     })
-                
-                Menu("Access Button Caption") {
-                    AccessButtonCaptionPicker(accessButtonCaption: $accessButtonCaption)
+                 
+                    Button(action: {
+                        showIgnoreListSheet = true
+                        }, label: {
+                            Text("Ignore List")
+                        })
+                    
+                    Menu("Access Button Caption") {
+                        AccessButtonCaptionPicker(accessButtonCaption: $accessButtonCaption)
+                    }
+
+                    Menu("Interface") {
+                        InterfacePicker(selectedInterface: $interface)
+                    }
+
+                } else {
+                    InterfacePicker(selectedInterface: $interface)
                 }
-//                .menuActionDismissBehavior(.disabled)
-
-
-//                Menu("Interfact") {
-//                    Picker(selection: .constant(0), content: {
-//                        Text("ContactsUI")
-//                            .tag(0)
-//                        
-//                        Text("Custom")
-//                            .tag(1)
-//                        
-//                    }, label: {
-//                        Text("Picker")
-//                    })
-//                }
 
             }, label: {
                 Image(systemName: "gearshape")
@@ -170,7 +173,6 @@ struct ContactView: View {
         .onAppear {
             ignoredEmails = Set(savedIgnoreEmails.split(separator: ",").map({String($0)}))
             ignoredPhoneNumbers = Set(savedIgnoredPhoneNumbers.split(separator: ",").map({String($0)}))
-            print(ignoredPhoneNumbers)
         }
     }
 }
