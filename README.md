@@ -1,6 +1,9 @@
 #  SwiftUI: Contact App Copy Cat
 
 A demo of using Contacts and ContactsUI framework for working with user contacts.
+
+For more details, please check out [SwiftUI: Working with User Contacts](https://medium.com/@itsuki.enjoy/swiftui-working-with-user-contacts-2745dc875de1)
+
 <br>
 Specifically, following abilities are included.
 1. Request access and manage permission
